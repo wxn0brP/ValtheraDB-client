@@ -1,0 +1,12 @@
+{
+    "name": "ValtheraDB",
+    "version": "0.0.1",
+    "main": "cdn-dist/database.js",
+    "author": "wxn0brP",
+    "license": "MIT",
+    "type": "module",
+    "exports": {
+        ".": "./cdn-dist/database.js",
+        "./graph": "./cdn-dist/graph.js"
+    }
+}

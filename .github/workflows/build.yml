@@ -18,3 +18,17 @@ jobs:
       customCommands: |
         v=$(jq -r .version package.json)
         echo "export const version = \"$v\";" > dist/version.js
+
+  cdn:
+    uses: wxn0brP/workflow-dist/.github/workflows/build-ts.yml@main
+    with:
+      files: "cdn-dist package.json"
+      branch: "cdn-dist"
+      customCommands: |
+        cd cdn
+        npm i
+        node index.js
+        cd ..
+        mkdir cdn-dist
+        mv cdn/dist/* cdn-dist
+        mv -f cdn/package.cdn.json package.json
