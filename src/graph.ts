@@ -1,4 +1,3 @@
-import ky from "ky";
 import { Remote, RequestData } from "./remote";
 
 /**
@@ -40,13 +39,14 @@ class GraphRemote {
             params
         };
         const url = this.remote.url + "/db/" + type;
-        const res = await ky.post(url, {
-            json: data,
+        const res = await fetch(url, {
+            method: "POST",
             headers: {
+                "Content-Type": "application/json",
                 "Authorization": this.remote.auth
             },
-            throwHttpErrors: false
-        }).json() as { err: boolean, msg: string, result: any };
+            body: JSON.stringify(data)
+        }).then(res => res.json()) as { err: boolean, msg: string, result: any };
 
         if (res.err) throw new Error(res.msg);
         return res.result;

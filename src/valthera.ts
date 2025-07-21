@@ -1,4 +1,3 @@
-import ky from "ky";
 import serializeFunctions from "./function";
 import { Remote, RequestData } from "./remote";
 import { version } from "./version";
@@ -49,13 +48,14 @@ class ValtheraRemote implements ValtheraCompatible {
             keys: processed.keys
         };
         const url = this.remote.url + "/db/" + type;
-        const res = await ky.post(url, {
-            json: data,
+        const res = await fetch(url, {
+            method: "POST",
             headers: {
+                "Content-Type": "application/json",
                 "Authorization": this.remote.auth
             },
-            throwHttpErrors: false
-        }).json() as { err: boolean, msg: string, result: any };
+            body: JSON.stringify(data)
+        }).then(res => res.json()) as { err: boolean, msg: string, result: any };
 
         if (res.err) throw new Error(res.msg);
         return res.result as T;
@@ -92,56 +92,56 @@ class ValtheraRemote implements ValtheraCompatible {
     /**
      * Add data to a database.
      */
-    async add<T = Data>(collection: string, data: Arg, id_gen = true) {
+    async add<T = Data>(collection: string, data: Arg<T>, id_gen = true) {
         return await this._request("add", [collection, data, id_gen]) as T;
     }
 
     /**
      * Find data in a database.
      */
-    async find<T = Data>(collection: string, search: Search, context: VContext = {}, options: DbFindOpts = {}, findOpts: FindOpts = {}) {
+    async find<T = Data>(collection: string, search: Search<T>, context: VContext = {}, options: DbFindOpts<T> = {}, findOpts: FindOpts<T> = {}) {
         return await this._request("find", [collection, search, context, options, findOpts]) as T[];
     }
 
     /**
      * Find one data entry in a database.
      */
-    async findOne<T = Data>(collection: string, search: Search, context: VContext = {}, findOpts: FindOpts = {}) {
+    async findOne<T = Data>(collection: string, search: Search<T>, context: VContext = {}, findOpts: FindOpts<T> = {}) {
         return await this._request("findOne", [collection, search, context, findOpts]) as (T | null);
     }
 
     /**
      * Update data in a database.
      */
-    async update(collection: string, search: Search, updater: Updater, context: VContext = {}) {
+    async update<T = Data>(collection: string, search: Search<T>, updater: Updater<T>, context: VContext = {}) {
         return await this._request("update", [collection, search, updater, context]) as boolean;
     }
 
     /**
      * Update one data entry in a database.
      */
-    async updateOne(collection: string, search: Search, updater: Updater, context: VContext = {}) {
+    async updateOne<T = Data>(collection: string, search: Search<T>, updater: Updater<T>, context: VContext = {}) {
         return await this._request("updateOne", [collection, search, updater, context]) as boolean;
     }
 
     /**
      * Remove data from a database.
      */
-    async remove(collection: string, search: Search, context: VContext = {}) {
+    async remove<T = Data>(collection: string, search: Search<T>, context: VContext = {}) {
         return await this._request("remove", [collection, search, context]) as boolean;
     }
 
     /**
      * Remove one data entry from a database.
      */
-    async removeOne(collection: string, search: Search, context: VContext = {}) {
+    async removeOne<T = Data>(collection: string, search: Search<T>, context: VContext = {}) {
         return await this._request("removeOne", [collection, search, context]) as boolean;
     }
 
     /**
      * Asynchronously updates one entry in a database or adds a new one if it doesn't exist.
      */
-    async updateOneOrAdd(collection: string, search: Search, arg: Search, add_arg: Arg = {}, context: VContext = {}, id_gen: boolean = true) {
+    async updateOneOrAdd<T = Data>(collection: string, search: Search<T>, arg: Search<T>, add_arg: Arg<T> = {}, context: VContext = {}, id_gen: boolean = true) {
         return await this._request("updateOneOrAdd", [collection, search, arg, add_arg, context, id_gen]) as boolean;
     }
 

@@ -21,7 +21,6 @@
         "typescript": "^5.7.3"
     },
     "dependencies": {
-        "ky": "^1.8.1",
         "@wxn0brp/db-core": ">=0.0.1 <0.1.0"
     },
     "files": [

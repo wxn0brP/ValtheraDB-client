@@ -1,3 +1,5 @@
+import { FindOpts } from "@wxn0brp/db-core/types/options";
+
 export interface Remote {
     name: string;
     url: string;
@@ -10,8 +12,8 @@ export interface RequestData {
     params?: Record<string, any>;
 }
 
-export interface findOptsRemote {
-    select?: string[]
-    exclude?: string[]
+export interface findOptsRemote<T=any> {
+    select?: FindOpts<T>["select"]
+    exclude?: FindOpts<T>["exclude"]
     transform?: string
 }

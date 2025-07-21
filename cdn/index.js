@@ -14,7 +14,4 @@ esbuild.build({
     splitting: false,
     minify: true,
     keepNames: true,
-    alias: {
-        "ky": "./kyShim.js"
-    }
 }).catch(() => process.exit(1));
