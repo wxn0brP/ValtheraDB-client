@@ -97,8 +97,8 @@ class GraphRemote {
     /**
      * Check and create the specified collection if it doesn't exist.
      */
-    async checkCollection(collection: string) {
-        return await this._request("checkCollection", [collection]);
+    async ensureCollection(collection: string) {
+        return await this._request("ensureCollection", [collection]);
     }
 
     /**
@@ -111,8 +111,8 @@ class GraphRemote {
     /**
      * Remove the specified collection.
      */
-    removeCollection(collection: string) {
-        return this._request("removeCollection", [collection]);
+    async removeCollection(collection: string) {
+        return await this._request("removeCollection", [collection]);
     }
 }
 

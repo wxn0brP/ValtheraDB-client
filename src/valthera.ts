@@ -78,8 +78,8 @@ class ValtheraRemote implements ValtheraCompatible {
     /**
      * Check and create the specified collection if it doesn't exist.
      */
-    async checkCollection(collection: string) {
-        return await this._request("checkCollection", [collection]) as boolean;
+    async ensureCollection(collection: string) {
+        return await this._request("ensureCollection", [collection]) as boolean;
     }
 
     /**
