@@ -5,7 +5,7 @@ import { Remote, RequestData } from "./remote";
  * Uses a remote database.
  * @class
  */
-class GraphRemote {
+export class GraphRemote {
     remote: Remote;
     /**
      * Create a new database instance.

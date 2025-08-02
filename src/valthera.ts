@@ -1,19 +1,19 @@
-import serializeFunctions from "./function";
-import { Remote, RequestData } from "./remote";
-import { version } from "./version";
-import { ValtheraCompatible } from "@wxn0brp/db-core/types/valthera";
 import CollectionManager from "@wxn0brp/db-core/helpers/CollectionManager";
 import { Arg, Search, Updater } from "@wxn0brp/db-core/types/arg";
 import Data from "@wxn0brp/db-core/types/data";
 import { DbFindOpts, FindOpts } from "@wxn0brp/db-core/types/options";
 import { VContext } from "@wxn0brp/db-core/types/types";
+import { ValtheraCompatible } from "@wxn0brp/db-core/types/valthera";
+import serializeFunctions from "./function";
+import { Remote, RequestData } from "./remote";
+import { version } from "./version";
 
 /**
  * Represents a database management class for performing CRUD operations.
  * Uses a remote database.
  * @class
  */
-class ValtheraRemote implements ValtheraCompatible {
+export class ValtheraRemote implements ValtheraCompatible {
     remote: Remote;
     version = version;
 
