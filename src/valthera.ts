@@ -3,7 +3,7 @@ import { Arg, Search, Updater } from "@wxn0brp/db-core/types/arg";
 import Data from "@wxn0brp/db-core/types/data";
 import { DbFindOpts, FindOpts } from "@wxn0brp/db-core/types/options";
 import { VContext } from "@wxn0brp/db-core/types/types";
-import { ValtheraCompatible } from "@wxn0brp/db-core/types/valthera";
+import { UpdateOneOrAdd, ValtheraCompatible } from "@wxn0brp/db-core/types/valthera";
 import serializeFunctions from "./function";
 import { Remote, RequestData } from "./remote";
 import { version } from "./version";
@@ -23,7 +23,7 @@ export class ValtheraRemote implements ValtheraCompatible {
             const name = urlObj.username;
             const auth = urlObj.password;
             if (!name || !auth) throw new Error("Invalid remote database");
-            
+
             urlObj.username = "";
             urlObj.password = "";
             const url = urlObj.toString().slice(0, -1);
@@ -99,15 +99,15 @@ export class ValtheraRemote implements ValtheraCompatible {
     /**
      * Find data in a database.
      */
-    async find<T = Data>(collection: string, search: Search<T>, context: VContext = {}, options: DbFindOpts<T> = {}, findOpts: FindOpts<T> = {}) {
-        return await this._request("find", [collection, search, context, options, findOpts]) as T[];
+    async find<T = Data>(collection: string, search: Search<T>, options: DbFindOpts<T> = {}, findOpts: FindOpts<T> = {}, context: VContext = {}) {
+        return await this._request("find", [collection, search, options, findOpts, context]) as T[];
     }
 
     /**
      * Find one data entry in a database.
      */
-    async findOne<T = Data>(collection: string, search: Search<T>, context: VContext = {}, findOpts: FindOpts<T> = {}) {
-        return await this._request("findOne", [collection, search, context, findOpts]) as (T | null);
+    async findOne<T = Data>(collection: string, search: Search<T>, findOpts: FindOpts<T> = {}, context: VContext = {}) {
+        return await this._request("findOne", [collection, search, findOpts, context]) as (T | null);
     }
 
     /**
@@ -141,8 +141,8 @@ export class ValtheraRemote implements ValtheraCompatible {
     /**
      * Asynchronously updates one entry in a database or adds a new one if it doesn't exist.
      */
-    async updateOneOrAdd<T = Data>(collection: string, search: Search<T>, arg: Search<T>, add_arg: Arg<T> = {}, context: VContext = {}, id_gen: boolean = true) {
-        return await this._request("updateOneOrAdd", [collection, search, arg, add_arg, context, id_gen]) as boolean;
+    async updateOneOrAdd<T = Data>(collection: string, search: Search<T>, arg: Search<T>, opts: UpdateOneOrAdd<T>) {
+        return await this._request("updateOneOrAdd", [collection, search, arg, opts]) as boolean;
     }
 
     /**
