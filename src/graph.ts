@@ -4,6 +4,7 @@ import { Remote, RequestData } from "./remote";
  * A class representing a graph database.
  * Uses a remote database.
  * @class
+ * @deprecated
  */
 export class GraphRemote {
     remote: Remote;
@@ -16,7 +17,7 @@ export class GraphRemote {
             const name = urlObj.username;
             const auth = urlObj.password;
             if (!name || !auth) throw new Error("Invalid remote database");
-            
+
             urlObj.username = "";
             urlObj.password = "";
             const url = urlObj.toString().slice(0, -1);
