@@ -1,7 +1,8 @@
 node_modules
 yarn.lock
 package-lock.json
+bun.lock
 dist
 .vscode
-test*
+src/test.ts
 .suglite_history
