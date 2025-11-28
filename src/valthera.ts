@@ -146,6 +146,13 @@ export class ValtheraRemote implements ValtheraCompatible {
     }
 
     /**
+     * Asynchronously removes one entry in a database or adds a new one if it doesn't exist. Usage e.g. for toggling a flag.
+     */
+    async toggleOne<T = Data>(collection: string, search: Search<T>, data: Arg<T>, context?: VContext) {
+        return await this._request("toggleOne", [collection, search, data, context]) as boolean;
+    }
+
+    /**
      * Removes a database collection from the file system.
      */
     async removeCollection(name: string) {
