@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.3](https://github.com/wxn0brP/ValtheraDB-client/compare/v0.2.2...v0.2.3) (2025-11-28)
+
+
+### Bug Fixes
+
+* toggleOne & bump deps ([cf98a81](https://github.com/wxn0brP/ValtheraDB-client/commit/cf98a8155c18132de0d90339c3ec1b7072e8efea))
+
 ### [0.2.2](https://github.com/wxn0brP/ValtheraDB-client/compare/v0.2.1...v0.2.2) (2025-11-28)
 
 
