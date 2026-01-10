@@ -1,4 +1,4 @@
-import CollectionManager from "@wxn0brp/db-core/helpers/CollectionManager";
+import { CollectionManager } from "@wxn0brp/db-core/helpers/collectionManager";
 import { Arg, Search, Updater } from "@wxn0brp/db-core/types/arg";
 import Data from "@wxn0brp/db-core/types/data";
 import { DbFindOpts, FindOpts } from "@wxn0brp/db-core/types/options";
