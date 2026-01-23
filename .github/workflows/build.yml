@@ -50,7 +50,7 @@ jobs:
           git checkout --orphan "$BRANCH"
           git reset -q HEAD --
 
-          git add -f -A "dist package.json"
+          git add -f -A dist package.json
           git commit -m "Deploy to CDN"
           git push origin "$BRANCH" --force
 
