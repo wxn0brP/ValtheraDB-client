@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.3.0](https://github.com/wxn0brP/ValtheraDB-client/compare/v0.2.5...v0.3.0) (2026-01-23)
+
+
+### ⚠ BREAKING CHANGES
+
+* remove deprecated graph
+
+### Features
+
+* improve cdn pkg ([bfa6099](https://github.com/wxn0brP/ValtheraDB-client/commit/bfa6099ad17695ce412c7982abdde13919c092e3))
+* remove deprecated graph ([09865a7](https://github.com/wxn0brP/ValtheraDB-client/commit/09865a78afbb7421d89dc732b26ada35ec851fa5))
+
 ### [0.2.5](https://github.com/wxn0brP/ValtheraDB-client/compare/v0.2.4...v0.2.5) (2026-01-10)
 
 ### [0.2.4](https://github.com/wxn0brP/ValtheraDB-client/compare/v0.2.3...v0.2.4) (2025-12-23)
