@@ -1,9 +1,15 @@
-import { CollectionManager } from "@wxn0brp/db-core/helpers/collectionManager";
-import { Arg, Search, Updater } from "@wxn0brp/db-core/types/arg";
-import Data from "@wxn0brp/db-core/types/data";
-import { DbFindOpts, FindOpts } from "@wxn0brp/db-core/types/options";
-import { VContext } from "@wxn0brp/db-core/types/types";
-import { UpdateOneOrAdd, ValtheraCompatible } from "@wxn0brp/db-core/types/valthera";
+import { Collection } from "@wxn0brp/db-core/helpers/collection";
+import { Data } from "@wxn0brp/db-core/types/data";
+import {
+    AddQuery,
+    FindOneQuery,
+    FindQuery,
+    RemoveQuery,
+    ToggleOneQuery,
+    UpdateOneOrAddQuery,
+    UpdateQuery,
+    ValtheraCompatible
+} from "@wxn0brp/db-core/types/valthera";
 import serializeFunctions from "./function";
 import { Remote, RequestData } from "./remote";
 import { version } from "./version";
@@ -65,98 +71,98 @@ export class ValtheraRemote implements ValtheraCompatible {
      * Create a new instance of a CollectionManager class.
      */
     c(collection: string) {
-        return new CollectionManager(this, collection);
+        return new Collection(this, collection);
     }
 
     /**
      * Get the names of all available databases.
      */
-    async getCollections() {
-        return await this._request("getCollections", []) as string[];
+    getCollections() {
+        return this._request<string[]>("getCollections", []);
     }
 
     /**
      * Check and create the specified collection if it doesn't exist.
      */
-    async ensureCollection(collection: string) {
-        return await this._request("ensureCollection", [collection]) as boolean;
+    ensureCollection(collection: string) {
+        return this._request<boolean>("ensureCollection", [collection]);
     }
 
     /**
      * Check if a collection exists.
      */
-    async issetCollection(collection: string) {
-        return await this._request("issetCollection", [collection]) as boolean;
+    issetCollection(collection: string) {
+        return this._request<boolean>("issetCollection", [collection]);
     }
 
     /**
      * Add data to a database.
      */
-    async add<T = Data>(collection: string, data: Arg<T>, id_gen = true) {
-        return await this._request("add", [collection, data, id_gen]) as T;
+    add<T = Data>(query: AddQuery) {
+        return this._request<T>("add", [query]);
     }
 
     /**
      * Find data in a database.
      */
-    async find<T = Data>(collection: string, search: Search<T>, options: DbFindOpts<T> = {}, findOpts: FindOpts<T> = {}, context: VContext = {}) {
-        return await this._request("find", [collection, search, options, findOpts, context]) as T[];
+    find<T = Data>(query: FindQuery) {
+        return this._request<T[]>("find", [query]);
     }
 
     /**
      * Find one data entry in a database.
      */
-    async findOne<T = Data>(collection: string, search: Search<T>, findOpts: FindOpts<T> = {}, context: VContext = {}) {
-        return await this._request("findOne", [collection, search, findOpts, context]) as (T | null);
+    findOne<T = Data>(query: FindOneQuery) {
+        return this._request<T | null>("findOne", [query]);
     }
 
     /**
      * Update data in a database.
      */
-    async update<T = Data>(collection: string, search: Search<T>, updater: Updater<T>, context: VContext = {}) {
-        return await this._request("update", [collection, search, updater, context]) as boolean;
+    update<T = Data>(query: UpdateQuery) {
+        return this._request<T[]>("update", [query]);
     }
 
     /**
      * Update one data entry in a database.
      */
-    async updateOne<T = Data>(collection: string, search: Search<T>, updater: Updater<T>, context: VContext = {}) {
-        return await this._request("updateOne", [collection, search, updater, context]) as boolean;
+    updateOne<T = Data>(query: UpdateQuery) {
+        return this._request<T | null>("updateOne", [query]);
     }
 
     /**
      * Remove data from a database.
      */
-    async remove<T = Data>(collection: string, search: Search<T>, context: VContext = {}) {
-        return await this._request("remove", [collection, search, context]) as boolean;
+    remove<T = Data>(query: RemoveQuery) {
+        return this._request<T[]>("remove", [query]);
     }
 
     /**
      * Remove one data entry from a database.
      */
-    async removeOne<T = Data>(collection: string, search: Search<T>, context: VContext = {}) {
-        return await this._request("removeOne", [collection, search, context]) as boolean;
+    removeOne<T = Data>(query: RemoveQuery) {
+        return this._request<T | null>("removeOne", [query]);
     }
 
     /**
      * Asynchronously updates one entry in a database or adds a new one if it doesn't exist.
      */
-    async updateOneOrAdd<T = Data>(collection: string, search: Search<T>, arg: Search<T>, opts: UpdateOneOrAdd<T>) {
-        return await this._request("updateOneOrAdd", [collection, search, arg, opts]) as boolean;
+    updateOneOrAdd<T = Data>(query: UpdateOneOrAddQuery) {
+        return this._request<T | null>("updateOneOrAdd", [query]);
     }
 
     /**
      * Asynchronously removes one entry in a database or adds a new one if it doesn't exist. Usage e.g. for toggling a flag.
      */
-    async toggleOne<T = Data>(collection: string, search: Search<T>, data?: Arg<T>, context?: VContext) {
-        return await this._request("toggleOne", [collection, search, data, context]) as boolean;
+    toggleOne<T = Data>(query: ToggleOneQuery) {
+        return this._request<T | null>("toggleOne", [query]);
     }
 
     /**
      * Removes a database collection from the file system.
      */
-    async removeCollection(name: string) {
-        return await this._request<boolean>("removeCollection", [name]) as boolean;
+    removeCollection(name: string) {
+        return this._request<boolean>("removeCollection", [name]);
     }
 }
 
