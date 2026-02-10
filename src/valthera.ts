@@ -10,7 +10,7 @@ import {
     UpdateQuery,
     ValtheraCompatible
 } from "@wxn0brp/db-core/types/valthera";
-import serializeFunctions from "./function";
+import { serializeFunctions } from "./function";
 import { Remote, RequestData } from "./remote";
 import { version } from "./version";
 
@@ -165,5 +165,3 @@ export class ValtheraRemote implements ValtheraCompatible {
         return this._request<boolean>("removeCollection", [name]);
     }
 }
-
-export default ValtheraRemote;

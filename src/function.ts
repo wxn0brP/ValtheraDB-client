@@ -1,4 +1,4 @@
-function serializeFunctions(data: Object) {
+export function serializeFunctions(data: Object) {
     const functionKeys: string[] = [];
 
     function convertFunctionToString(fn: any) {
@@ -29,5 +29,3 @@ function serializeFunctions(data: Object) {
     traverseAndSerialize(data);
     return { data, keys: functionKeys };
 }
-
-export default serializeFunctions;
