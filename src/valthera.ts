@@ -6,10 +6,12 @@ import {
     FindQuery,
     RemoveQuery,
     ToggleOneQuery,
+    ToggleOneResult,
     UpdateOneOrAddQuery,
+    UpdateOneOrAddResult,
     UpdateQuery,
-    ValtheraCompatible
-} from "@wxn0brp/db-core/types/valthera";
+} from "@wxn0brp/db-core/types/query";
+import { ValtheraCompatible } from "@wxn0brp/db-core/types/valthera";
 import { serializeFunctions } from "./function";
 import { Remote, RequestData } from "./remote";
 import { version } from "./version";
@@ -148,14 +150,14 @@ export class ValtheraRemote implements ValtheraCompatible {
      * Asynchronously updates one entry in a database or adds a new one if it doesn't exist.
      */
     updateOneOrAdd<T = Data>(query: UpdateOneOrAddQuery) {
-        return this._request<T | null>("updateOneOrAdd", [query]);
+        return this._request<UpdateOneOrAddResult<T>>("updateOneOrAdd", [query]);
     }
 
     /**
      * Asynchronously removes one entry in a database or adds a new one if it doesn't exist. Usage e.g. for toggling a flag.
      */
     toggleOne<T = Data>(query: ToggleOneQuery) {
-        return this._request<T | null>("toggleOne", [query]);
+        return this._request<ToggleOneResult<T>>("toggleOne", [query]);
     }
 
     /**
