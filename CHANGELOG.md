@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.4.3](https://github.com/wxn0brP/ValtheraDB-client/compare/v0.4.2...v0.4.3) (2026-02-16)
+
+
+### Features
+
+* bump deps ([0d728d3](https://github.com/wxn0brP/ValtheraDB-client/commit/0d728d3f9be7af6f8dd177740591b07e7120f9c3))
+
 ### [0.4.2](https://github.com/wxn0brP/ValtheraDB-client/compare/v0.4.1...v0.4.2) (2026-02-14)
 
 ### [0.4.1](https://github.com/wxn0brP/ValtheraDB-client/compare/v0.4.0...v0.4.1) (2026-02-14)
