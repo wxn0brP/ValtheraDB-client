@@ -72,8 +72,8 @@ export class ValtheraRemote implements ValtheraCompatible {
     /**
      * Create a new instance of a CollectionManager class.
      */
-    c(collection: string) {
-        return new Collection(this, collection);
+    c<T = Data>(collection: string) {
+        return new Collection<T>(this, collection);
     }
 
     /**
@@ -100,63 +100,63 @@ export class ValtheraRemote implements ValtheraCompatible {
     /**
      * Add data to a database.
      */
-    add<T = Data>(query: AddQuery) {
+    add<T = Data>(query: AddQuery<T>) {
         return this._request<T>("add", [query]);
     }
 
     /**
      * Find data in a database.
      */
-    find<T = Data>(query: FindQuery) {
+    find<T = Data>(query: FindQuery<T>) {
         return this._request<T[]>("find", [query]);
     }
 
     /**
      * Find one data entry in a database.
      */
-    findOne<T = Data>(query: FindOneQuery) {
+    findOne<T = Data>(query: FindOneQuery<T>) {
         return this._request<T | null>("findOne", [query]);
     }
 
     /**
      * Update data in a database.
      */
-    update<T = Data>(query: UpdateQuery) {
+    update<T = Data>(query: UpdateQuery<T>) {
         return this._request<T[]>("update", [query]);
     }
 
     /**
      * Update one data entry in a database.
      */
-    updateOne<T = Data>(query: UpdateQuery) {
+    updateOne<T = Data>(query: UpdateQuery<T>) {
         return this._request<T | null>("updateOne", [query]);
     }
 
     /**
      * Remove data from a database.
      */
-    remove<T = Data>(query: RemoveQuery) {
+    remove<T = Data>(query: RemoveQuery<T>) {
         return this._request<T[]>("remove", [query]);
     }
 
     /**
      * Remove one data entry from a database.
      */
-    removeOne<T = Data>(query: RemoveQuery) {
+    removeOne<T = Data>(query: RemoveQuery<T>) {
         return this._request<T | null>("removeOne", [query]);
     }
 
     /**
      * Asynchronously updates one entry in a database or adds a new one if it doesn't exist.
      */
-    updateOneOrAdd<T = Data>(query: UpdateOneOrAddQuery) {
+    updateOneOrAdd<T = Data>(query: UpdateOneOrAddQuery<T>) {
         return this._request<UpdateOneOrAddResult<T>>("updateOneOrAdd", [query]);
     }
 
     /**
      * Asynchronously removes one entry in a database or adds a new one if it doesn't exist. Usage e.g. for toggling a flag.
      */
-    toggleOne<T = Data>(query: ToggleOneQuery) {
+    toggleOne<T = Data>(query: ToggleOneQuery<T>) {
         return this._request<ToggleOneResult<T>>("toggleOne", [query]);
     }
 
