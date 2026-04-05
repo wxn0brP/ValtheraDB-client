@@ -1,48 +1,22 @@
 import { Collection } from "@wxn0brp/db-core/helpers/collection";
 import { Data } from "@wxn0brp/db-core/types/data";
-import {
-    AddQuery,
-    FindOneQuery,
-    FindQuery,
-    RemoveQuery,
-    ToggleOneQuery,
-    ToggleOneResult,
-    UpdateOneOrAddQuery,
-    UpdateOneOrAddResult,
-    UpdateQuery,
-} from "@wxn0brp/db-core/types/query";
+import { VQueryT } from "@wxn0brp/db-core/types/query";
 import { ValtheraCompatible } from "@wxn0brp/db-core/types/valthera";
 import { serializeFunctions } from "./function";
+import { parseRemote } from "./parse";
 import { Remote, RequestData } from "./remote";
 import { version } from "./version";
 
 /**
  * Represents a database management class for performing CRUD operations.
  * Uses a remote database.
- * @class
  */
 export class ValtheraRemote implements ValtheraCompatible {
     remote: Remote;
     version = version;
 
     constructor(remote: Remote | string) {
-        if (typeof remote === "string") {
-            const urlObj = new URL(remote);
-            const name = urlObj.username;
-            const auth = urlObj.password;
-            if (!name || !auth) throw new Error("Invalid remote database");
-
-            urlObj.username = "";
-            urlObj.password = "";
-            const url = urlObj.toString().slice(0, -1);
-
-            this.remote = {
-                name,
-                url,
-                auth
-            };
-        } else this.remote = remote;
-        if (this.remote.url.endsWith("/")) this.remote.url = this.remote.url.slice(0, -1);
+        this.remote = parseRemote(remote);
     }
 
     /**
@@ -100,64 +74,64 @@ export class ValtheraRemote implements ValtheraCompatible {
     /**
      * Add data to a database.
      */
-    add<T = Data>(query: AddQuery<T>) {
+    add<T = Data>(query: VQueryT.Add<T>) {
         return this._request<T>("add", [query]);
     }
 
     /**
      * Find data in a database.
      */
-    find<T = Data>(query: FindQuery<T>) {
+    find<T = Data>(query: VQueryT.Find<T>) {
         return this._request<T[]>("find", [query]);
     }
 
     /**
      * Find one data entry in a database.
      */
-    findOne<T = Data>(query: FindOneQuery<T>) {
+    findOne<T = Data>(query: VQueryT.FindOne<T>) {
         return this._request<T | null>("findOne", [query]);
     }
 
     /**
      * Update data in a database.
      */
-    update<T = Data>(query: UpdateQuery<T>) {
+    update<T = Data>(query: VQueryT.Update<T>) {
         return this._request<T[]>("update", [query]);
     }
 
     /**
      * Update one data entry in a database.
      */
-    updateOne<T = Data>(query: UpdateQuery<T>) {
+    updateOne<T = Data>(query: VQueryT.Update<T>) {
         return this._request<T | null>("updateOne", [query]);
     }
 
     /**
      * Remove data from a database.
      */
-    remove<T = Data>(query: RemoveQuery<T>) {
+    remove<T = Data>(query: VQueryT.Remove<T>) {
         return this._request<T[]>("remove", [query]);
     }
 
     /**
      * Remove one data entry from a database.
      */
-    removeOne<T = Data>(query: RemoveQuery<T>) {
+    removeOne<T = Data>(query: VQueryT.Remove<T>) {
         return this._request<T | null>("removeOne", [query]);
     }
 
     /**
      * Asynchronously updates one entry in a database or adds a new one if it doesn't exist.
      */
-    updateOneOrAdd<T = Data>(query: UpdateOneOrAddQuery<T>) {
-        return this._request<UpdateOneOrAddResult<T>>("updateOneOrAdd", [query]);
+    updateOneOrAdd<T = Data>(query: VQueryT.UpdateOneOrAdd<T>) {
+        return this._request<VQueryT.UpdateOneOrAddResult<T>>("updateOneOrAdd", [query]);
     }
 
     /**
      * Asynchronously removes one entry in a database or adds a new one if it doesn't exist. Usage e.g. for toggling a flag.
      */
-    toggleOne<T = Data>(query: ToggleOneQuery<T>) {
-        return this._request<ToggleOneResult<T>>("toggleOne", [query]);
+    toggleOne<T = Data>(query: VQueryT.ToggleOne<T>) {
+        return this._request<VQueryT.ToggleOneResult<T>>("toggleOne", [query]);
     }
 
     /**
