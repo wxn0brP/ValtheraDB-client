@@ -25,6 +25,7 @@ export class ValtheraRemote implements ValtheraCompatible {
     async _request<T>(type: string, params = []) {
         const processed = serializeFunctions(params);
         const data: RequestData = {
+            auth: this.remote.auth,
             db: this.remote.name,
             params: processed.data,
             keys: processed.keys
@@ -33,8 +34,7 @@ export class ValtheraRemote implements ValtheraCompatible {
         const res = await fetch(url, {
             method: "POST",
             headers: {
-                "Content-Type": "application/json",
-                "Authorization": this.remote.auth
+                "Content-Type": "application/json"
             },
             body: JSON.stringify(data)
         }).then(res => res.json()) as { err: boolean, msg: string, result: any };

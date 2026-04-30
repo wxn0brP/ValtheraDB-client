@@ -20,13 +20,13 @@ export class RelationClient {
         const body = {
             accessCfg: this.dbs,
             params: params,
+            auth: parsed.auth,
         };
 
         const response = await fetch(url, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": parsed.auth
             },
             body: JSON.stringify(body),
         });

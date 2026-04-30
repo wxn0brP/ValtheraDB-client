@@ -5,6 +5,7 @@ export interface Remote {
 }
 
 export interface RequestData {
+    auth?: string;
     db?: string;
     keys?: string[];
     params?: Record<string, any>;
