@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.100.1](https://github.com/wxn0brP/ValtheraDB-client/compare/v0.100.0...v0.100.1) (2026-04-30)
+
+
+### Features
+
+* add RelationClient & refactor ValtheraClient ([5c40ed7](https://github.com/wxn0brP/ValtheraDB-client/commit/5c40ed72db3a86427b4b3cfcd2bd5f06f7e12554))
+* body auth ([885857f](https://github.com/wxn0brP/ValtheraDB-client/commit/885857f82aaa770c34ee530237c9249f947bbc77))
+
 ## [0.100.0](https://github.com/wxn0brP/ValtheraDB-client/compare/v0.90.0...v0.100.0) (2026-03-20)
 
 ## [0.90.0](https://github.com/wxn0brP/ValtheraDB-client/compare/v0.4.4...v0.90.0) (2026-02-25)
