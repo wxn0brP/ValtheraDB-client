@@ -7,6 +7,6 @@ export interface Remote {
 export interface RequestData {
     auth?: string;
     db?: string;
-    keys?: string[];
-    params?: Record<string, any>;
+    keys?: string[][];
+    query?: Record<string, any>;
 }

@@ -22,12 +22,12 @@ export class ValtheraRemote implements ValtheraCompatible {
     /**
      * Make a request to the remote database.
      */
-    async _request<T>(type: string, params = []) {
-        const processed = serializeFunctions(params);
+    async _request<T>(type: string, query?: any) {
+        const processed = serializeFunctions(query);
         const data: RequestData = {
             auth: this.remote.auth,
             db: this.remote.name,
-            params: processed.data,
+            query: processed.data,
             keys: processed.keys
         };
         const url = this.remote.url + "/db/" + type;
@@ -54,90 +54,90 @@ export class ValtheraRemote implements ValtheraCompatible {
      * Get the names of all available databases.
      */
     getCollections() {
-        return this._request<string[]>("getCollections", []);
+        return this._request<string[]>("getCollections");
     }
 
     /**
      * Check and create the specified collection if it doesn't exist.
      */
     ensureCollection(collection: string) {
-        return this._request<boolean>("ensureCollection", [collection]);
+        return this._request<boolean>("ensureCollection", collection);
     }
 
     /**
      * Check if a collection exists.
      */
     issetCollection(collection: string) {
-        return this._request<boolean>("issetCollection", [collection]);
+        return this._request<boolean>("issetCollection", collection);
     }
 
     /**
      * Add data to a database.
      */
     add<T = Data>(query: VQueryT.Add<T>) {
-        return this._request<T>("add", [query]);
+        return this._request<T>("add", query);
     }
 
     /**
      * Find data in a database.
      */
     find<T = Data>(query: VQueryT.Find<T>) {
-        return this._request<T[]>("find", [query]);
+        return this._request<T[]>("find", query);
     }
 
     /**
      * Find one data entry in a database.
      */
     findOne<T = Data>(query: VQueryT.FindOne<T>) {
-        return this._request<T | null>("findOne", [query]);
+        return this._request<T | null>("findOne", query);
     }
 
     /**
      * Update data in a database.
      */
     update<T = Data>(query: VQueryT.Update<T>) {
-        return this._request<T[]>("update", [query]);
+        return this._request<T[]>("update", query);
     }
 
     /**
      * Update one data entry in a database.
      */
     updateOne<T = Data>(query: VQueryT.Update<T>) {
-        return this._request<T | null>("updateOne", [query]);
+        return this._request<T | null>("updateOne", query);
     }
 
     /**
      * Remove data from a database.
      */
     remove<T = Data>(query: VQueryT.Remove<T>) {
-        return this._request<T[]>("remove", [query]);
+        return this._request<T[]>("remove", query);
     }
 
     /**
      * Remove one data entry from a database.
      */
     removeOne<T = Data>(query: VQueryT.Remove<T>) {
-        return this._request<T | null>("removeOne", [query]);
+        return this._request<T | null>("removeOne", query);
     }
 
     /**
      * Asynchronously updates one entry in a database or adds a new one if it doesn't exist.
      */
     updateOneOrAdd<T = Data>(query: VQueryT.UpdateOneOrAdd<T>) {
-        return this._request<VQueryT.UpdateOneOrAddResult<T>>("updateOneOrAdd", [query]);
+        return this._request<VQueryT.UpdateOneOrAddResult<T>>("updateOneOrAdd", query);
     }
 
     /**
      * Asynchronously removes one entry in a database or adds a new one if it doesn't exist. Usage e.g. for toggling a flag.
      */
     toggleOne<T = Data>(query: VQueryT.ToggleOne<T>) {
-        return this._request<VQueryT.ToggleOneResult<T>>("toggleOne", [query]);
+        return this._request<VQueryT.ToggleOneResult<T>>("toggleOne", query);
     }
 
     /**
      * Removes a database collection from the file system.
      */
-    removeCollection(name: string) {
-        return this._request<boolean>("removeCollection", [name]);
+    removeCollection(collection: string) {
+        return this._request<boolean>("removeCollection", collection);
     }
 }

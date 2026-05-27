@@ -1,31 +1,26 @@
-export function serializeFunctions(data: Object) {
-    const functionKeys: string[] = [];
+export function serializeFunctions(data: Record<string, any>) {
+    const functionPaths: string[][] = [];
 
-    function convertFunctionToString(fn: any) {
-        return typeof fn === "function" ? fn.toString() : fn;
-    }
-
-    function traverseAndSerialize(obj: Object, path: string = "") {
-        Object.keys(obj).forEach((key) => {
+    function serialize(obj: Record<string, any>, path: string[] = []) {
+        for (const key of Object.keys(obj)) {
             const value = obj[key];
-            const fullPath = path ? `${path}.${key.replace(/\./g, "[dot]")}` : key;
+            const nextPath = [...path, key];
 
             if (typeof value === "function") {
-                functionKeys.push(fullPath);
-                obj[key] = convertFunctionToString(value);
-            } else if (Array.isArray(value)) {
-                value.forEach((item, index) => {
-                    if (typeof item === "function") {
-                        functionKeys.push(`${fullPath}[${index}]`);
-                        value[index] = convertFunctionToString(item);
-                    }
-                });
-            } else if (typeof value === "object" && value !== null) {
-                traverseAndSerialize(value, fullPath);
+                functionPaths.push(nextPath);
+                obj[key] = value.toString();
+                continue;
             }
-        });
+
+            if (value && typeof value === "object" && !Array.isArray(value))
+                serialize(value, nextPath);
+        }
     }
 
-    traverseAndSerialize(data);
-    return { data, keys: functionKeys };
+    serialize(data);
+
+    return {
+        data,
+        keys: functionPaths,
+    };
 }
