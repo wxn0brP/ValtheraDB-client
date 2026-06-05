@@ -4,7 +4,7 @@ import { VQueryT } from "@wxn0brp/db-core/types/query";
 import { ValtheraCompatible } from "@wxn0brp/db-core/types/valthera";
 import { serializeFunctions } from "./function";
 import { parseRemote } from "./parse";
-import { Remote, RequestData } from "./remote";
+import { RemoteConfig, Remote, RequestData } from "./remote";
 import { version } from "./version";
 
 /**
@@ -15,7 +15,7 @@ export class ValtheraRemote implements ValtheraCompatible {
     remote: Remote;
     version = version;
 
-    constructor(remote: Remote | string) {
+    constructor(remote: RemoteConfig | string) {
         this.remote = parseRemote(remote);
     }
 
@@ -24,19 +24,26 @@ export class ValtheraRemote implements ValtheraCompatible {
      */
     async _request<T>(type: string, query?: any) {
         const processed = serializeFunctions(query);
+        const url = new URL(this.remote.url);
+
         const data: RequestData = {
-            auth: this.remote.auth,
-            db: this.remote.name,
+            auth: url.username,
+            db: url.password,
             query: processed.data,
-            keys: processed.keys
+            keys: processed.keys,
+            ...(this.remote.body || {})
         };
-        const url = this.remote.url + "/db/" + type;
+
+        url.pathname = url.pathname + "/db/" + type;
+
         const res = await fetch(url, {
             method: "POST",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                ...(this.remote.headers || {})
             },
-            body: JSON.stringify(data)
+            body: JSON.stringify(data),
+            ...(this.remote.fetch || {})
         }).then(res => res.json()) as { err: boolean, msg: string, result: any };
 
         if (res.err) throw new Error(res.msg);

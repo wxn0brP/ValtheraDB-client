@@ -1,25 +1,23 @@
-import { Remote } from "./remote";
+import { RemoteConfig, Remote } from "./remote";
 
-export function parseRemote(remote: string | Remote) {
-    if (typeof remote === "string") {
-        const urlObj = new URL(remote);
-        const name = urlObj.username;
-        const auth = urlObj.password;
-        if (!name || !auth) throw new Error("Invalid remote database");
+export function parseRemote(remote: string | RemoteConfig): Remote {
+    const isString = typeof remote === "string";
 
-        urlObj.username = "";
-        urlObj.password = "";
-        const url = urlObj.toString().slice(0, -1);
+    const url = new URL(isString ? remote : remote.url);
+    url.pathname = url.pathname.replace(/\/$/, "");
 
-        remote = {
-            name,
-            url,
-            auth
-        };
+    const parsed: Remote = {
+        url
     }
 
-    if (remote.url.endsWith("/"))
-        remote.url = remote.url.slice(0, -1);
+    if (!isString) {
+        url.username = remote.name || url.username;
+        url.password = remote.auth || url.password;
+        Object.assign(url.searchParams, remote.query || {});
+        if (remote.headers) parsed.headers = remote.headers;
+        if (remote.fetch) parsed.fetch = remote.fetch;
+        if (remote.body) parsed.body = remote.body;
+    }
 
-    return remote;
+    return parsed;
 }

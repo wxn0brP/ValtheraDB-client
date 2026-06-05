@@ -2,33 +2,46 @@ import { RelationTypes } from "@wxn0brp/db-core";
 import { Search } from "@wxn0brp/db-core/types/arg";
 import { DbFindOpts } from "@wxn0brp/db-core/types/options";
 import { parseRemote } from "./parse";
-import { Remote } from "./remote";
+import { RemoteConfig, Remote } from "./remote";
 
 export class RelationClient {
-    constructor(public dbs: Record<string, string | Remote>) { }
+    remote: Record<string, Remote> = {};
+
+    constructor(remote: Record<string, string | RemoteConfig>) {
+        this.remote = Object.fromEntries(
+            Object.entries(remote)
+                .map(([name, remote]) => [name, parseRemote(remote)])
+        )
+    }
 
     async _request(type: "findOne" | "find", params: any[]) {
         const dbName = params[0][0];
-        const parsed = parseRemote(this.dbs[dbName]);
+        const entry = this.remote[dbName];
+        const url = new URL(entry.url);
 
-        const config: Record<string, Remote> = {};
-        Object.entries(this.dbs).forEach(([name, remote]) => {
-            config[name] = parseRemote(remote);
+        const config: Record<string, string> = {};
+        Object.entries(this.remote).forEach(([name, remote]) => {
+            config[name] = remote.url.toString();
         });
 
-        const url = `${parsed.url}/r/${type}`;
+        if (typeof params[1] === "function")
+            params[1] = params[1].toString();
+
+        url.pathname = url.pathname + "/r/" + type;
         const body = {
-            accessCfg: this.dbs,
+            accessCfg: config,
             params: params,
-            auth: parsed.auth,
+            auth: url.username,
         };
 
         const response = await fetch(url, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
+                ...(entry.headers || {})
             },
             body: JSON.stringify(body),
+            ...(entry.fetch || {})
         });
 
         if (!response.ok) {
