@@ -2,54 +2,13 @@ import { Collection } from "@wxn0brp/db-core/helpers/collection";
 import { Data } from "@wxn0brp/db-core/types/data";
 import { VQueryT } from "@wxn0brp/db-core/types/query";
 import { ValtheraCompatible } from "@wxn0brp/db-core/types/valthera";
-import { serializeFunctions } from "./function";
-import { parseRemote } from "./parse";
-import { RemoteConfig, Remote, RequestData } from "./remote";
-import { version } from "./version";
+import { BaseRemote } from "./base";
 
 /**
  * Represents a database management class for performing CRUD operations.
  * Uses a remote database.
  */
-export class ValtheraRemote implements ValtheraCompatible {
-    remote: Remote;
-    version = version;
-
-    constructor(remote: RemoteConfig | string) {
-        this.remote = parseRemote(remote);
-    }
-
-    /**
-     * Make a request to the remote database.
-     */
-    async _request<T>(type: string, query?: any) {
-        const processed = serializeFunctions(query);
-        const url = new URL(this.remote.url);
-
-        const data: RequestData = {
-            auth: url.username,
-            db: url.password,
-            query: processed.data,
-            keys: processed.keys,
-            ...(this.remote.body || {})
-        };
-
-        url.pathname = url.pathname + "/db/" + type;
-
-        const res = await fetch(url, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                ...(this.remote.headers || {})
-            },
-            body: JSON.stringify(data),
-            ...(this.remote.fetch || {})
-        }).then(res => res.json()) as { err: boolean, msg: string, result: any };
-
-        if (res.err) throw new Error(res.msg);
-        return res.result as T;
-    }
-
+export class ValtheraRemote extends BaseRemote implements ValtheraCompatible {
     /**
      * Create a new instance of a CollectionManager class.
      */
