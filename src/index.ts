@@ -7,7 +7,7 @@ export * from "./remote";
 export * from "./valthera";
 
 export const DYNAMIC = {
-    client(url: string | RemoteConfig) {
-        return new RemoteActionsBase(url);
-    }
+	client(url: string | RemoteConfig) {
+		return new RemoteActionsBase(url);
+	},
 };
