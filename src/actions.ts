@@ -1,5 +1,6 @@
 import { ActionsBaseInterface } from "@wxn0brp/db-core/types/action";
 import { DataInternal } from "@wxn0brp/db-core/types/data";
+import { AdapterOpts } from "@wxn0brp/db-core/types/options";
 import { VQueryT } from "@wxn0brp/db-core/types/query";
 import { BaseRemote } from "./base";
 
@@ -8,7 +9,8 @@ export class RemoteActionsBase
 	implements ActionsBaseInterface
 {
 	_inited: boolean = true;
-	numberId: boolean = false;
+	// TODO: client don't send adapterOpts to server
+	adapterOpts: AdapterOpts;
 	smartExecutor: boolean = true;
 
 	async init(...args: any[]) {}
