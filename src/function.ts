@@ -1,4 +1,10 @@
 export function serializeFunctions(data: Record<string, any>) {
+	if (!data)
+		return {
+			data,
+			keys: [],
+		};
+
 	const functionPaths: string[][] = [];
 
 	function serialize(obj: Record<string, any>, path: string[] = []) {
