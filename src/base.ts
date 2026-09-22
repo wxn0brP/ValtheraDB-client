@@ -16,8 +16,8 @@ export class BaseRemote {
 		const url = new URL(this.remote.url);
 
 		const data: RequestData = {
-			auth: url.username,
-			db: url.password,
+			db: url.username,
+			auth: url.password,
 			query: processed.data,
 			keys: processed.keys,
 			...(this.remote.body || {}),
