@@ -24,8 +24,8 @@ export class BaseRemote {
 		};
 
 		url.pathname = url.pathname.replace(/\/$/, "") + "/db/" + type;
-		delete url.username;
-		delete url.password;
+		url.username = "";
+		url.password = "";
 
 		const res = (await fetch(url, {
 			method: "POST",
