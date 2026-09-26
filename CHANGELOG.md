@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.120.4](https://github.com/wxn0brP/ValtheraDB-client/compare/v0.120.3...v0.120.4) (2026-09-26)
+
+
+### Bug Fixes
+
+* collections queries ([ebef099](https://github.com/wxn0brP/ValtheraDB-client/commit/ebef0997a6a5cc5fd23c61397780d53ed58fbfbe))
+* new core ([edf928c](https://github.com/wxn0brP/ValtheraDB-client/commit/edf928cab7b67eac415aa0883eb637f7f5685e4c))
+
 ### [0.120.3](https://github.com/wxn0brP/ValtheraDB-client/compare/v0.120.2...v0.120.3) (2026-09-22)
 
 
