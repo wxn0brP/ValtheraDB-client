@@ -27,14 +27,18 @@ export class ValtheraRemote extends BaseRemote implements ValtheraCompatible {
 	 * Check and create the specified collection if it doesn't exist.
 	 */
 	ensureCollection(collection: string) {
-		return this._request<boolean>("ensureCollection", collection);
+		return this._request<boolean>("ensureCollection", {
+			collection,
+		});
 	}
 
 	/**
 	 * Check if a collection exists.
 	 */
 	issetCollection(collection: string) {
-		return this._request<boolean>("issetCollection", collection);
+		return this._request<boolean>("issetCollection", {
+			collection,
+		});
 	}
 
 	/**
@@ -107,6 +111,8 @@ export class ValtheraRemote extends BaseRemote implements ValtheraCompatible {
 	 * Removes a database collection from the file system.
 	 */
 	removeCollection(collection: string) {
-		return this._request<boolean>("removeCollection", collection);
+		return this._request<boolean>("removeCollection", {
+			collection,
+		});
 	}
 }
