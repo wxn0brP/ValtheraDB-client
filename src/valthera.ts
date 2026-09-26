@@ -115,4 +115,6 @@ export class ValtheraRemote extends BaseRemote implements ValtheraCompatible {
 			collection,
 		});
 	}
+
+	async createIndex() {}
 }

@@ -1,7 +1,9 @@
+import { Id } from "@wxn0brp/db-core";
 import { ActionsBaseInterface } from "@wxn0brp/db-core/types/action";
 import { DataInternal } from "@wxn0brp/db-core/types/data";
 import { AdapterOpts } from "@wxn0brp/db-core/types/options";
 import { VQueryT } from "@wxn0brp/db-core/types/query";
+import { TransactionHandle } from "@wxn0brp/db-core/types/transaction";
 import { BaseRemote } from "./base";
 
 export class RemoteActionsBase
@@ -73,4 +75,18 @@ export class RemoteActionsBase
 			config,
 		);
 	}
+
+	async beginTransaction(id: Id): Promise<TransactionHandle> {
+		throw new Error("Transactions are not supported.");
+	}
+
+	async commitTransaction(handle: TransactionHandle) {
+		throw new Error("Transactions are not supported.");
+	}
+
+	async rollbackTransaction(handle: TransactionHandle) {
+		throw new Error("Transactions are not supported.");
+	}
+
+	async createIndex(config: VQueryT.CreateIndex) {}
 }
