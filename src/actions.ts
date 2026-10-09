@@ -89,4 +89,13 @@ export class RemoteActionsBase
 	}
 
 	async createIndex(config: VQueryT.CreateIndex) {}
+	async removeIndex(config: VQueryT.RemoveIndex) {}
+
+	async count(config: VQueryT.Count): Promise<number> {
+		return this._request<number>("count", config);
+	}
+
+	async bulkAdd(config: VQueryT.BulkAdd): Promise<DataInternal[]> {
+		return this._request<DataInternal[]>("bulkAdd", config);
+	}
 }

@@ -117,4 +117,13 @@ export class ValtheraRemote extends BaseRemote implements ValtheraCompatible {
 	}
 
 	async createIndex() {}
+	async removeIndex() {}
+
+	count(query: VQueryT.Count) {
+		return this._request<number>("count", query);
+	}
+
+	bulkAdd<T = Data>(query: VQueryT.BulkAdd<T>) {
+		return this._request<T[]>("bulkAdd", query);
+	}
 }
