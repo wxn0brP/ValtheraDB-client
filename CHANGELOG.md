@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.120.7](https://github.com/wxn0brP/ValtheraDB-client/compare/v0.120.6...v0.120.7) (2026-10-15)
+
+
+### Features
+
+* update ([b68911a](https://github.com/wxn0brP/ValtheraDB-client/commit/b68911a34ed6d6b047a3870edd19b5d75fbf2750))
+
 ### [0.120.6](https://github.com/wxn0brP/ValtheraDB-client/compare/v0.120.5...v0.120.6) (2026-10-12)
 
 ### [0.120.5](https://github.com/wxn0brP/ValtheraDB-client/compare/v0.120.4...v0.120.5) (2026-10-05)
