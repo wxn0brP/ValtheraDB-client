@@ -1,4 +1,5 @@
 import { Collection } from "@wxn0brp/db-core/helpers/collection";
+import { AdapterCapabilities } from "@wxn0brp/db-core/types/action";
 import { Data } from "@wxn0brp/db-core/types/data";
 import { VQueryT } from "@wxn0brp/db-core/types/query";
 import { ValtheraCompatible } from "@wxn0brp/db-core/types/valthera";
@@ -125,5 +126,9 @@ export class ValtheraRemote extends BaseRemote implements ValtheraCompatible {
 
 	bulkAdd<T = Data>(query: VQueryT.BulkAdd<T>) {
 		return this._request<T[]>("bulkAdd", query);
+	}
+
+	capabilities() {
+		return this._request<AdapterCapabilities>("capabilities");
 	}
 }

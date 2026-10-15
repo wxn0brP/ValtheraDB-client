@@ -1,5 +1,9 @@
 import { Id } from "@wxn0brp/db-core";
-import { ActionsBaseInterface } from "@wxn0brp/db-core/types/action";
+import { UnsupportedOperationError } from "@wxn0brp/db-core/errors";
+import {
+	AdapterCapabilities,
+	ActionsBaseInterface,
+} from "@wxn0brp/db-core/types/action";
 import { DataInternal } from "@wxn0brp/db-core/types/data";
 import { AdapterOpts } from "@wxn0brp/db-core/types/options";
 import { VQueryT } from "@wxn0brp/db-core/types/query";
@@ -14,6 +18,11 @@ export class RemoteActionsBase
 	// TODO: client don't send adapterOpts to server
 	adapterOpts: AdapterOpts;
 	smartExecutor: boolean = true;
+	capabilities: AdapterCapabilities = {
+		transactions: false,
+		indexes: false,
+		persistent: true,
+	};
 
 	async init(...args: any[]) {}
 	async close(...args: any[]) {}
@@ -77,15 +86,15 @@ export class RemoteActionsBase
 	}
 
 	async beginTransaction(id: Id): Promise<TransactionHandle> {
-		throw new Error("Transactions are not supported.");
+		throw new UnsupportedOperationError("beginTransaction");
 	}
 
 	async commitTransaction(handle: TransactionHandle) {
-		throw new Error("Transactions are not supported.");
+		throw new UnsupportedOperationError("commitTransaction");
 	}
 
 	async rollbackTransaction(handle: TransactionHandle) {
-		throw new Error("Transactions are not supported.");
+		throw new UnsupportedOperationError("rollbackTransaction");
 	}
 
 	async createIndex(config: VQueryT.CreateIndex) {}

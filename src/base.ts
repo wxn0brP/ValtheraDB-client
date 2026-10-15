@@ -1,3 +1,4 @@
+import { errorFromWire } from "@wxn0brp/db-core/errors";
 import { serializeFunctions } from "./function";
 import { parseRemote } from "./parse";
 import { Remote, RemoteConfig, RequestData } from "./remote";
@@ -39,9 +40,18 @@ export class BaseRemote {
 			err: boolean;
 			msg: string;
 			result: any;
+			code?: string;
+			suggestion?: string;
+			context?: Record<string, unknown>;
 		};
 
-		if (res.err) throw new Error(res.msg);
+		if (res.err)
+			throw errorFromWire({
+				code: res.code,
+				message: res.msg,
+				suggestion: res.suggestion,
+				context: res.context,
+			});
 		return res.result as T;
 	}
 }
