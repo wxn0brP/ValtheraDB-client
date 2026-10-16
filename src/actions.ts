@@ -1,5 +1,4 @@
 import { Id } from "@wxn0brp/db-core";
-import { UnsupportedOperationError } from "@wxn0brp/db-core/errors";
 import {
 	AdapterCapabilities,
 	ActionsBaseInterface,
@@ -19,7 +18,7 @@ export class RemoteActionsBase
 	adapterOpts: AdapterOpts;
 	smartExecutor: boolean = true;
 	capabilities: AdapterCapabilities = {
-		transactions: false,
+		transactions: true,
 		indexes: false,
 		persistent: true,
 	};
@@ -31,16 +30,25 @@ export class RemoteActionsBase
 		return this._request<string[]>("getCollections");
 	}
 
-	async ensureCollection(collection: string) {
-		return this._request<boolean>("ensureCollection", collection);
+	async ensureCollection(collection: string, tx?: TransactionHandle) {
+		return this._request<boolean>("ensureCollection", {
+			collection,
+			transaction: tx,
+		});
 	}
 
-	async issetCollection(collection: string) {
-		return this._request<boolean>("issetCollection", collection);
+	async issetCollection(collection: string, tx?: TransactionHandle) {
+		return this._request<boolean>("issetCollection", {
+			collection,
+			transaction: tx,
+		});
 	}
 
-	async removeCollection(collection: string) {
-		return this._request<boolean>("removeCollection", collection);
+	async removeCollection(collection: string, tx?: TransactionHandle) {
+		return this._request<boolean>("removeCollection", {
+			collection,
+			transaction: tx,
+		});
 	}
 
 	async add(config: VQueryT.Add) {
@@ -85,16 +93,25 @@ export class RemoteActionsBase
 		);
 	}
 
-	async beginTransaction(id: Id): Promise<TransactionHandle> {
-		throw new UnsupportedOperationError("beginTransaction");
+	async beginTransaction(
+		_id: Id,
+		collections: string[],
+	): Promise<TransactionHandle> {
+		return this._request<TransactionHandle>("beginTransaction", {
+			collections,
+		});
 	}
 
 	async commitTransaction(handle: TransactionHandle) {
-		throw new UnsupportedOperationError("commitTransaction");
+		await this._request("commitTransaction", {
+			transaction: handle,
+		});
 	}
 
 	async rollbackTransaction(handle: TransactionHandle) {
-		throw new UnsupportedOperationError("rollbackTransaction");
+		await this._request("rollbackTransaction", {
+			transaction: handle,
+		});
 	}
 
 	async createIndex(config: VQueryT.CreateIndex) {}
