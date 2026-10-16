@@ -13,17 +13,27 @@ export class RemoteActionsBase
 	extends BaseRemote
 	implements ActionsBaseInterface
 {
-	_inited: boolean = true;
+	_inited: boolean = false;
 	// TODO: client don't send adapterOpts to server
 	adapterOpts: AdapterOpts;
 	smartExecutor: boolean = true;
 	capabilities: AdapterCapabilities = {
-		transactions: true,
+		transactions: false,
 		indexes: false,
 		persistent: true,
 	};
 
-	async init(...args: any[]) {}
+	private _capsLoaded = false;
+
+	async init(...args: any[]) {
+		if (this._capsLoaded) return;
+		this._capsLoaded = true;
+		try {
+			const caps = await this._request<AdapterCapabilities>("capabilities");
+			if (caps) this.capabilities = caps;
+		} catch {}
+	}
+
 	async close(...args: any[]) {}
 
 	async getCollections() {
