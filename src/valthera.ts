@@ -1,4 +1,7 @@
-import { Collection } from "@wxn0brp/db-core/helpers/collection";
+import {
+	Collection,
+	resolveCollection,
+} from "@wxn0brp/db-core/helpers/collection";
 import { AdapterCapabilities } from "@wxn0brp/db-core/types/action";
 import { Data } from "@wxn0brp/db-core/types/data";
 import { VQueryT } from "@wxn0brp/db-core/types/query";
@@ -27,18 +30,18 @@ export class ValtheraRemote extends BaseRemote implements ValtheraCompatible {
 	/**
 	 * Check and create the specified collection if it doesn't exist.
 	 */
-	ensureCollection(collection: string) {
+	ensureCollection(target: string | VQueryT.Collection) {
 		return this._request<boolean>("ensureCollection", {
-			collection,
+			collection: resolveCollection(target),
 		});
 	}
 
 	/**
 	 * Check if a collection exists.
 	 */
-	issetCollection(collection: string) {
+	issetCollection(target: string | VQueryT.Collection) {
 		return this._request<boolean>("issetCollection", {
-			collection,
+			collection: resolveCollection(target),
 		});
 	}
 
@@ -111,9 +114,9 @@ export class ValtheraRemote extends BaseRemote implements ValtheraCompatible {
 	/**
 	 * Removes a database collection from the file system.
 	 */
-	removeCollection(collection: string) {
+	removeCollection(target: string | VQueryT.Collection) {
 		return this._request<boolean>("removeCollection", {
-			collection,
+			collection: resolveCollection(target),
 		});
 	}
 
